@@ -89,9 +89,9 @@
                             </p>
 
                         </form>
-
+                         <p style="color:red" class="text-center text-muted">Bad log in credentials</p>
                         <p class="text-center text-muted">Not registered yet?</p>
-                        <p class="text-center text-muted"><a href="register.php"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute!</p>
+                        <p class="text-center text-muted"><a href="register.php"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
 
                     </div>
                 </div>
@@ -102,7 +102,7 @@
 
     <!-- *** TOP BAR END *** -->
 
-    <!-- *** NAVBAR ***
+     <!-- *** NAVBAR ***
  _________________________________________________________ -->
 
     <div class="navbar navbar-default yamm" role="navigation" id="navbar">
@@ -387,7 +387,11 @@
             }
         })
     </script>
-
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#login-modal').modal('show');
+});
+    </script>
 
 
 </body>

@@ -15,8 +15,7 @@ else{*/
                   WHERE USERS.mail = '$mail' AND USERS.password = '$password'";
     $result = Query::$conn->query($query);
     if(mysqli_num_rows($result) == 0){
-        echo "Bad log in credentials<br>";
-        echo "<a href='index.php'>Log in Page</a>";
+        header("Location:indexbad.php");
         exit();
     }
     session_start();
