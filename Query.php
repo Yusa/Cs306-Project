@@ -5,15 +5,14 @@ class Query
     public static $conn;
 
     public static function connectDatabase(){
-        $myfile = fopen("creds.txt", "r");
+
 
         if(!self::$conn){//check if you are already connected to database
             $servername = "localhost";
-            $username = "root";
-            $password = fgets($myfile);
-            $dbname = "SHOPDB";
+
+            $dbname = "ecommerce";
             // Create connection
-            self::$conn = new mysqli($servername, $username, $password, $dbname);
+            self::$conn = new mysqli($servername, "root","", $dbname);
 
             // Check connection
             if (self::$conn->connect_error) {
@@ -21,7 +20,7 @@ class Query
                 exit();
             }
         }
-        fclose($myfile);
+
     }
 
     public static function loginCheck(){

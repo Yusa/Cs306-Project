@@ -1,18 +1,25 @@
 <?php
    session_start();
    $_SESSION["username"] = "";
+   $id = $_COOKIE['id'];
 
     require "Query.php";
     Query::connectDatabase();
+    
+    $query = "SELECT *
+                FROM USERS
+                  WHERE USERS.id = '$id'";
+    $result = Query::$conn->query($query);
+    $person = $result->fetch_assoc();
+
     $query = "SELECT *
                 FROM CATEGORY";
-    $result = Query::$conn->query($query);           
+     $result = Query::$conn->query($query);           
     $myarr=array();
     while($row = mysqli_fetch_array($result))
     {
         array_push($myarr, $row);
     }
-?>
 ?>
 
 <html lang="en">
@@ -101,9 +108,9 @@
                             </p>
 
                         </form>
-                        <p style="color:red" class="text-center text-muted" id="loginError"> </p>
+                         <p style="color:red" class="text-center text-muted">Bad log in credentials</p>
                         <p class="text-center text-muted">Not registered yet?</p>
-                        <p class="text-center text-muted"><a href="register.php"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute!</p>
+                        <p class="text-center text-muted"><a href="register.php"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
 
                     </div>
                 </div>
@@ -114,7 +121,7 @@
 
     <!-- *** TOP BAR END *** -->
 
-    <!-- *** NAVBAR ***
+     <!-- *** NAVBAR ***
  _________________________________________________________ -->
 
     <div class="navbar navbar-default yamm" role="navigation" id="navbar">
@@ -141,7 +148,7 @@
                     <li class="active"><a href="index.php">Home</a>
                     </li>
 
-                     <li class="dropdown yamm-fw">
+                    <li class="dropdown yamm-fw">
                         <a href="category.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
@@ -392,7 +399,11 @@
             }
         })
     </script>
-
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#login-modal').modal('show');
+});
+    </script>
 
 
 </body>
