@@ -1,6 +1,18 @@
 <?php
    session_start();
    $_SESSION["username"] = "";
+
+    require "Query.php";
+    Query::connectDatabase();
+    $query = "SELECT *
+                FROM CATEGORY";
+    $result = Query::$conn->query($query);           
+    $myarr=array();
+    while($row = mysqli_fetch_array($result))
+    {
+        array_push($myarr, $row);
+    }
+?>
 ?>
 
 <html lang="en">
@@ -89,7 +101,7 @@
                             </p>
 
                         </form>
-
+                        <p style="color:red" class="text-center text-muted" id="loginError"> </p>
                         <p class="text-center text-muted">Not registered yet?</p>
                         <p class="text-center text-muted"><a href="register.php"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute!</p>
 
@@ -129,32 +141,25 @@
                     <li class="active"><a href="index.php">Home</a>
                     </li>
 
-                    <li class="dropdown yamm-fw">
+                     <li class="dropdown yamm-fw">
                         <a href="category.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <div class="yamm-content">
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5>Clothing</h5>
+                                        <div class="col-sm-12">
+                                             <h5><a href="category.php">Categories</a></h5>
                                             <ul>
-                                                <li><a href="category.php">T-shirts</a>
-                                                </li>
-                                                <li><a href="category.php">Shirts</a>
-                                                </li>
-                                                <li><a href="category.php">Pants</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Shoes</h5>
-                                            <ul>
-                                                <li><a href="category.php">Trainers</a>
-                                                </li>
-                                                <li><a href="category.php">Sandals</a>
-                                                </li>
-                                                <li><a href="category.php">Hiking shoes</a>
-                                                </li>
+                                                <?php
+                                                    $row_number=count($myarr);
+
+                                                    for($i=0;$i<$row_number;$i++)
+                                                    {
+                                                        $cname=$myarr[$i]['cname'];
+                                                        echo "<li>" .$cname.  "</li>";
+                                                    }
+                                                ?>
+
                                             </ul>
                                         </div>
                                     </div>

@@ -1,6 +1,25 @@
 <?php
    session_start();
    $_SESSION["username"] = "";
+   $id = $_COOKIE['id'];
+
+    require "Query.php";
+    Query::connectDatabase();
+    
+    $query = "SELECT *
+                FROM USERS
+                  WHERE USERS.id = '$id'";
+    $result = Query::$conn->query($query);
+    $person = $result->fetch_assoc();
+
+    $query = "SELECT *
+                FROM CATEGORY";
+     $result = Query::$conn->query($query);           
+    $myarr=array();
+    while($row = mysqli_fetch_array($result))
+    {
+        array_push($myarr, $row);
+    }
 ?>
 <html lang="en">
 
@@ -133,26 +152,19 @@
                             <li>
                                 <div class="yamm-content">
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5>Clothing</h5>
+                                        <div class="col-sm-12">
+                                            <h5><a href="category.php">Categories</a></h5>
                                             <ul>
-                                                <li><a href="category.php">T-shirts</a>
-                                                </li>
-                                                <li><a href="category.php">Shirts</a>
-                                                </li>
-                                                <li><a href="category.php">Pants</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Shoes</h5>
-                                            <ul>
-                                                <li><a href="category.php">Trainers</a>
-                                                </li>
-                                                <li><a href="category.php">Sandals</a>
-                                                </li>
-                                                <li><a href="category.php">Hiking shoes</a>
-                                                </li>
+                                                <?php
+                                                    $row_number=count($myarr);
+
+                                                    for($i=0;$i<$row_number;$i++)
+                                                    {
+                                                        $cname=$myarr[$i]['cname'];
+                                                        echo "<li>" .$cname.  "</li>";
+                                                    }
+                                                ?>
+
                                             </ul>
                                         </div>
                                     </div>
@@ -285,18 +297,15 @@
                             <ul class="nav nav-pills nav-stacked category-menu">
                                 <li class="active">
                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Trainers</a>
-                                        </li>
-                                        <li><a href="category.php">Sandals</a>
-                                        </li>
-                                        <li><a href="category.php">Hiking Shoes</a>
-                                        </li>
+                                        <?php
+                                            $row_number=count($myarr);
+
+                                            for($i=0;$i<$row_number;$i++)
+                                            {
+                                                $cname=$myarr[$i]['cname'];
+                                                echo "<li>" .$cname.  "</li>";
+                                            }
+                                        ?>
                                     </ul>
                                 </li>
                                
