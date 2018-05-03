@@ -9,25 +9,24 @@
        header("Refresh:0; url=index.php");
        exit; 
    }
-
     require "Query.php";
     Query::connectDatabase();
-    
-    $query = "SELECT *
-                FROM USERS
-                  WHERE USERS.id = '$id'";
-    $result = Query::$conn->query($query);
-    $person = $result->fetch_assoc();
 
     $query = "SELECT *
-                FROM CATEGORY";
-     $result = Query::$conn->query($query);           
+    		  FROM USERS";   
+
+    $result = Query::$conn->query($query);      
     $myarr=array();
     while($row = mysqli_fetch_array($result))
     {
         array_push($myarr, $row);
     }
+    
+
+
 ?>
+
+
 <html lang="en">
 
 <head>
@@ -36,7 +35,7 @@
     <meta name="robots" content="all,follow">
     <meta name="googlebot" content="index,follow,snippet,archive">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Obaju e-commerce template">
+    <meta name="mail" content="Obaju e-commerce template">
     <meta name="author" content="Ondrej Svestka | ondrejsvestka.cz">
     <meta name="keywords" content="">
 
@@ -290,7 +289,7 @@
                     <ul class="breadcrumb">
                         <li><a href="index.php">Home</a>
                         </li>
-                        <li>Admin Page</li>
+                        <li>User List</li>
                     </ul>
 
                 </div>
@@ -299,149 +298,123 @@
                     
                 </div>
 
-                <div class="col-md-12">
-                    <div class="box">
-                        <hr>
+				<div class="col-sm-12">   
 
-                        <h3>Add Product</h3>
-                        <form action="addProd.php" method="post">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Product Name</label>
-                                        <input type="text" class="form-control" name = "prodName" id="prodName">
-                                    </div>
-                                </div>
+					<table class="table table-bordered">
+						<tr>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">id</label>
+			                </td>
 
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Description</label>
-                                        <input type="text" class="form-control" name = "description" id="description" >
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Dist. Info</label>
-                                        <input type="text" class="form-control" name = "distInfo" id="distInfo"  >
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="email">Warrant Status</label>
-                                        <input type="text" class="form-control" name = "warrant-stat" id="warrant-stat"  >
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Model Number</label>
-                                        <input type="text" class="form-control" name = "model-num" id="model-num" >
-                                    </div>
-                                </div>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">name</label>
+			                </td>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">mail</label>
+			                </td>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">Password</label>
+			                </td>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">Address</label>
+			                </td>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">Tax ID</label>
+			                </td>
+			                <td class="col-sm-1 text-right">
+			                    <label for="name1">Admin</label>
+			                </td>
 
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Price</label>
-                                        <input type="text" class="form-control" name = "price" id="price" >
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Discount Percentage</label>
-                                        <input type="text" class="form-control" name = "discPercentage" id="discPercentage"  >
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="email">Stock Quantity</label>
-                                        <input type="text" class="form-control" name = "stock" id="stock"  >
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="email">Category</label>
-                                        <input type="text" class="form-control" name = "category" id="category"  >
-                                    </div>
-                                </div>                                
-                                <div class="col-sm-12" style="text-align: center">
-                                    <div class="form-group">
-                                        <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-sign-in"></i>Add</button>
-                                    </div>
-                                </div>
+			            </tr>                            
+
+                            <?php
+                                $row_number=count($myarr);
+
+                                for($i=0;$i<$row_number;$i++)
+                                {
+                                    $id=$myarr[$i]['id'];                                    
+                                    $name=$myarr[$i]['name'];
+                                    $mail=$myarr[$i]['mail'];
+                                    $password=$myarr[$i]['password'];
+                                    $address=$myarr[$i]['address'];
+                                    $taxid=$myarr[$i]['taxid'];
+                                    $isAdmin=$myarr[$i]['isAdmin'];
+
+
+                                    echo "<form action=\"updateUser.php\" method=\"post\">
+	                                    	<tr>
+	                                    		<td class=\"col-sm-1 text-right\">
+	                                    			<label name=\"id\">" .$id.  "</label>
+	                                			</td>
+	                                			<input type=\"hidden\" name=\"id\" value=\"" .$id."\"/>
+	                                    		<td>
+	                                    			<input id=\"name1\" class=\"form-control\" placeholder=\"" .$name. "\" name=\"name\">
+	                                			</td>
+
+	                                    		<td>
+	                                    			<input id=\"name1\" class=\"form-control\" placeholder=\"" .$mail. "\" name=\"mail\">
+	                                			</td>
+	                                			
+	                                    		<td>
+	                                    			<input id=\"name1\" class=\"form-control\" placeholder=\"" .$password. "\" name=\"password\">
+	                                			</td>
+	                                			
+	                                    		<td>
+	                                    			<input id=\"name1\" class=\"form-control\" placeholder=\"" .$address. "\" name=\"address\">
+	                                			</td>
+	                                			
+	                                    		<td>
+	                                    			<input id=\"name1\" class=\"form-control\" placeholder=\"" .$taxid. "\" name=\"taxid\">
+	                                			</td>
+	                                			
+	                                    		<td>
+	                                    			<input id=\"name1\" class=\"form-control\" placeholder=\"" .$isAdmin. "\" name=\"isAdmin\">
+	                                			</td>
+
+	                                			<td>
+	                                				<button class=\"btn btn-primary update\" type=\"submit\">Update</button>
+	                                			</td>
+	                            			</tr>
+	                            		</form>";
+                                }
+                            ?>
+                        <form action="addNewUser.php" method="post">
+                            <tr>
+                                <td class="col-sm-1 text-right">
+                                    <label name="id">NONE</label>
+                                </td>
+                                <input type="hidden" name="id" value="" />
+                                <td>
+                                    <input id="name1" class="form-control"   name="name">
+                                </td>
+
+                                <td>
+                                    <input id="name1" class="form-control"   name="mail">
+                                </td>
                                 
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-<!--DELETE PRODUCT -->
-                <div class="col-md-12">
-                    <div class="box">
-                        <hr>
-
-                        <h3>Delete Product</h3>
-                        <form action="deleteProd.php" method="post">
-                            <label for="name">Product ID</label>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name = "prodID" id="prodID">
-                                    </div>
-                                </div>
-
-                               <div class="col-sm-4" >
-                                    <div class="form-group" style="text-align: bottom">
-                                        <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-sign-in"></i>Delete</button>
-                                    </div>
-                                </div>
+                                <td>
+                                    <input id="name1" class="form-control"   name="password">
+                                </td>
                                 
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-<!--List PRODUCT -->
-                <div class="col-md-12">
-                    <div class="box">
-                        <hr>
-                        <h3>List Products</h3>
-                        <form action="listProds.php" method="post">
-                            <div class="row">
-                               <div class="col-sm-12" >
-                                    <div class="form-group" style="text-align: center">
-                                        <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-sign-in"></i>List Products</button>
-                                    </div>
-                                </div>
+                                <td>
+                                    <input id="name1" class="form-control"   name="address">
+                                </td>
                                 
-                            </div>
-                        </form>
-                    </div>
-                </div>
-<!--List Users -->
-                <div class="col-md-12">
-                    <div class="box">
-                        <hr>
-                        <h3>List Users</h3>
-                        <form action="listUsers.php" method="post">
-                            <div class="row">
-                               <div class="col-sm-12" >
-                                    <div class="form-group" style="text-align: center">
-                                        <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-sign-in"></i>List Users</button>
-                                    </div>
-                                </div>
+                                <td>
+                                    <input id="name1" class="form-control"   name="taxid">
+                                </td>
                                 
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                                <td>
+                                    <input id="name1" class="form-control"   name="isAdmin">
+                                </td>
 
-<!-- -->
-
-
-
-
-
-
-
+                                <td>
+                                    <button class="btn btn-primary update" type="submit">Add New</button>
+                                </td>
+                            </tr>
+                        </form>                            
+			        </table>			        
+			    </div>  
             </div>
             <!-- /.container -->
         </div>
