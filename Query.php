@@ -2,17 +2,18 @@
 define("COOKIE_LEN",600);//this defines a constant for cookie length (in seconds)
 class Query
 {
-    public static $conn;
+   public static $conn;
 
-    public static function connectDatabase(){
-
+   public static function connectDatabase(){
+        $myfile = fopen("creds.txt", "r");
 
         if(!self::$conn){//check if you are already connected to database
             $servername = "localhost";
-
-            $dbname = "ecommerce";
+            $username = "root";
+            $password = fgets($myfile);
+            $dbname = "SHOPDB";
             // Create connection
-            self::$conn = new mysqli($servername, "root","", $dbname);
+            self::$conn = new mysqli($servername, $username, $password, $dbname);
 
             // Check connection
             if (self::$conn->connect_error) {
@@ -20,7 +21,7 @@ class Query
                 exit();
             }
         }
-
+        fclose($myfile);
     }
 
     public static function loginCheck(){

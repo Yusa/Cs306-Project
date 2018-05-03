@@ -24,22 +24,26 @@
     $cname = isset($_GET['name']) ? $_GET['name'] : '0';
     if(isset($_GET['name']))
     {
-         $query = "SELECT *
-                    FROM CATEGORY C
-                    WHERE C.cname = '$cname'";
+         $query = "SELECT CATEGORY.cid
+                    FROM CATEGORY
+                    WHERE cname = '$cname'";
          $result = Query::$conn->query($query);
-         $category = $result->fetch_assoc();
-         $cid = $category[cid];
-         $query = "SELECT *
-                    FROM PRODUCT_CATEGORY P
-                    WHERE P.cid = '$cid'";
-        $result = Query::$conn->query($query);           
-        $myproducts=array();
-        while($row = mysqli_fetch_array($result))
-        {
-         array_push($myproducts, $row);
-        }
 
+        if (mysqli_num_rows($result) == 1) 
+        {
+             $category = $result->fetch_assoc();
+             $cid = $category['cid'];
+             $query = "SELECT *
+                        FROM PRODUCT_CATEGORY P
+                        WHERE P.cid = '$cid'";
+            $result = Query::$conn->query($query);           
+            $myproducts=array();
+            while($row = mysqli_fetch_array($result))
+            {
+             array_push($myproducts, $row);
+            }
+
+        }
     }
 
 ?>
@@ -94,7 +98,7 @@
             </div>
             <div class="col-md-6" data-animate="fadeInDown">
 
-                <ul class="menu" data-valid=' <?php echo $_SESSION["valid"]; ?> '>
+                <ul class="menu" data-valid=' <?php echo $_SESSION["valid"]; ?> ' data-admin=' <?php echo $_SESSION["isAdmin"]; ?> '>
                     <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
                     </li>
                     <li><a href="register.php">Register</a>
@@ -102,6 +106,8 @@
                     <li><a href="customer-account.php">Account</a>
                     </li>
                     <li><a href="logout.php">Log Out</a>
+                    </li>
+                    <li><a href="admin.php">Admin Page</a>
                     </li>
                 </ul>
             </div>
@@ -499,7 +505,7 @@
             elements = $('.menu').children();
             if($('.menu').data("valid") == true){
                 $.each(elements, function (i, val) {
-                    if(i < 2)
+                    if(i < 2 || (i == 4 && $('.menu').data("admin") == 0))
                     val.remove();
                 })
             }

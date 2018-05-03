@@ -56,7 +56,7 @@ done
             </div>
             <div class="col-md-6" data-animate="fadeInDown">
 
-                <ul class="menu" data-valid=' <?php echo $_SESSION["valid"]; ?> '>
+                <ul class="menu" data-valid=' <?php echo $_SESSION["valid"]; ?> ' data-admin=' <?php echo $_SESSION["isAdmin"]; ?> '>
                     <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
                     </li>
                     <li><a href="register.php">Register</a>
@@ -64,6 +64,8 @@ done
                     <li><a href="customer-account.php">Account</a>
                     </li>
                     <li><a href="logout.php">Log Out</a>
+                    </li>
+                    <li><a href="admin.php">Admin Page</a>
                     </li>
                 </ul>
             </div>
@@ -702,7 +704,7 @@ done
             elements = $('.menu').children();
             if($('.menu').data("valid") == true){
                 $.each(elements, function (i, val) {
-                    if(i < 2)
+                    if(i < 2 || (i == 4 && $('.menu').data("admin") == 0))
                     val.remove();
                 })
             }
